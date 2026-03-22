@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div id="s1" style="display:block;padding:20px;">
+  <p>画面1です</p>
+  <button onclick="goTo('s2')" style="padding:16px 32px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;">次の画面へ</button>
+</div>
+<div id="s2" style="display:none;padding:20px;">
+  <p>画面2に遷移できました！</p>
+  <button onclick="goTo('s1')" style="padding:16px 32px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;">戻る</button>
+</div>
+<script>
+function goTo(id){
+  document.getElementById('s1').style.display='none';
+  document.getElementById('s2').style.display='none';
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>
