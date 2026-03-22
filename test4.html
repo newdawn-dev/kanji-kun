@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:sans-serif;background:#f0f0f0;display:flex;justify-content:center;}
+#app{width:100%;max-width:390px;background:#fff;}
+.scr{display:none;min-height:100vh;}
+.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="scr" id="s-create" style="display:block;">
+    <div class="scroll">
+      <p style="margin-bottom:20px;">清算入力画面</p>
+      <button onclick="goTo('s-setup')" style="width:100%;padding:16px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;touch-action:manipulation;">支払いページを作成する →</button>
+    </div>
+  </div>
+  <div class="scr" id="s-setup">
+    <div class="scroll">
+      <p style="margin-bottom:20px;">受取口座・催促設定画面</p>
+      <button onclick="goTo('s-share')" style="width:100%;padding:16px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;touch-action:manipulation;">イベントを作成してURLを発行する →</button>
+    </div>
+  </div>
+  <div class="scr" id="s-share">
+    <div class="scroll">
+      <p style="margin-bottom:20px;">URL共有画面</p>
+      <button onclick="goTo('s-manage')" style="width:100%;padding:16px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;touch-action:manipulation;">管理画面を見る →</button>
+    </div>
+  </div>
+  <div class="scr" id="s-manage">
+    <div class="scroll">
+      <p style="margin-bottom:20px;">管理画面</p>
+      <button onclick="goTo('s-create')" style="width:100%;padding:16px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;touch-action:manipulation;">最初に戻る</button>
+    </div>
+  </div>
+</div>
+<script>
+function goTo(id){
+  var all=document.querySelectorAll('.scr');
+  for(var i=0;i<all.length;i++){all[i].style.display='none';}
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>
