@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div id="app">
+  <div id="s-create" style="display:block;padding:20px;">
+    <p style="margin-bottom:20px;">画面1：清算入力</p>
+    <button onclick="goTo('s-setup')" style="width:100%;padding:16px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;touch-action:manipulation;">支払いページを作成する →</button>
+  </div>
+  <div id="s-setup" style="display:none;padding:20px;">
+    <p style="margin-bottom:20px;">画面2：受取口座設定</p>
+    <button onclick="createEvent()" style="width:100%;padding:16px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;touch-action:manipulation;">イベントを作成してURLを発行する →</button>
+  </div>
+  <div id="s-share" style="display:none;padding:20px;">
+    <p style="margin-bottom:20px;">画面3：URL共有</p>
+    <button onclick="goTo('s-manage')" style="width:100%;padding:16px;background:#4a7de8;color:#fff;border:none;border-radius:12px;font-size:16px;touch-action:manipulation;">管理画面を見る →</button>
+  </div>
+  <div id="s-manage" style="display:none;padding:20px;">
+    <p>画面4：管理画面</p>
+  </div>
+</div>
+<script>
+var mCount = 4;
+var confCount = 1;
+var totalM = 3;
+var avC = [['#e8f0fe','#3a6bc4'],['#e8f5e9','#2e7d32']];
+
+function goTo(id) {
+  var ids = ['s-create','s-setup','s-share','s-manage'];
+  for (var i = 0; i < ids.length; i++) {
+    document.getElementById(ids[i]).style.display = 'none';
+  }
+  document.getElementById(id).style.display = 'block';
+}
+
+function createEvent() {
+  goTo('s-share');
+}
+
+function calc() {}
+function showToast(msg) { alert(msg); }
+</script>
+</body>
+</html>
