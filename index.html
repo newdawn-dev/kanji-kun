@@ -4,324 +4,955 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>幹事くん</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;background:#f0f0f0;display:flex;justify-content:center;}
-#app{width:100%;max-width:390px;background:#fff;min-height:100vh;}
-.scr{display:none;min-height:100vh;padding-bottom:40px;}
-.hdr{padding:14px 16px;border-bottom:0.5px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between;}
-.hdr-title{font-size:17px;font-weight:600;color:#1a1a1a;}
-.sec{padding:16px;}
-.lbl{font-size:12px;color:#888;margin-bottom:6px;font-weight:500;}
-.card{background:#fff;border:0.5px solid #e0e0e0;border-radius:12px;padding:12px 14px;margin-bottom:12px;}
-.inp{width:100%;border:0.5px solid #ccc;border-radius:8px;padding:10px 12px;font-size:15px;outline:none;color:#1a1a1a;background:#fff;-webkit-appearance:none;}
-.inp:focus{border-color:#4a7de8;}
-.mrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid #f0f0f0;}
-.mrow:last-child{border-bottom:none;}
-.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;}
-.trow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid #f0f0f0;}
-.trow:last-child{border-bottom:none;}
-.add-btn{width:100%;padding:9px;border:0.5px dashed #ccc;border-radius:8px;background:none;font-size:13px;color:#888;margin-top:8px;cursor:pointer;touch-action:manipulation;}
-.res-card{background:#f0faf4;border:0.5px solid #a8d9b5;border-radius:12px;padding:12px 14px;margin-bottom:12px;}
-.res-row{display:flex;justify-content:space-between;padding:5px 0;font-size:14px;color:#2e7d4f;}
-.pbtn{width:100%;padding:14px;background:#4a7de8;border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:600;cursor:pointer;margin-top:8px;touch-action:manipulation;-webkit-appearance:none;display:block;}
-.sbtn{width:100%;padding:12px;background:#fff;border:0.5px solid #ccc;border-radius:12px;color:#1a1a1a;font-size:15px;cursor:pointer;margin-top:8px;touch-action:manipulation;-webkit-appearance:none;display:block;}
-.bbtn{border:none;background:none;font-size:15px;color:#4a7de8;cursor:pointer;padding:0;touch-action:manipulation;}
-.prow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid #f0f0f0;}
-.prow:last-child{border-bottom:none;}
-.pic{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
-.cbtn{margin-left:auto;padding:5px 12px;font-size:11px;border:0.5px solid #ccc;border-radius:6px;background:#fff;color:#555;cursor:pointer;touch-action:manipulation;}
-.cbar{background:#fff8e1;border:0.5px solid #ffe082;border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.paid-btn{width:100%;padding:14px;background:#f0faf4;border:none;border-radius:12px;color:#2e7d4f;font-size:16px;font-weight:600;cursor:pointer;touch-action:manipulation;}
-.sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
-.mc{background:#f5f5f5;border-radius:10px;padding:10px 12px;}
-.cfbtn{padding:5px 12px;font-size:11px;border:none;border-radius:6px;background:#e8f5e9;color:#2e7d32;cursor:pointer;touch-action:manipulation;}
-.rrow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid #f0f0f0;}
-.rrow:last-child{border-bottom:none;}
-.rbadge{font-size:11px;padding:3px 8px;border-radius:6px;}
-#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity 0.3s;white-space:nowrap;z-index:1000;pointer-events:none;}
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --border: #e8e5df;
+    --border-strong: #d0cdc6;
+    --text: #1a1917;
+    --text-muted: #7a786f;
+    --text-subtle: #b0ada6;
+    --accent: #2d6a4f;
+    --accent-light: #e8f5ee;
+    --accent-text: #1b4332;
+    --danger: #c0392b;
+    --danger-light: #fdf0ef;
+    --danger-text: #7b1d1d;
+    --warning-light: #fef9e7;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+
+  /* ヘッダー */
+  .top-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--text-muted); font-weight: 400; font-size: 14px; margin-left: 6px; }
+
+  .container { max-width: 480px; margin: 0 auto; padding: 16px; }
+
+  /* スクリーン制御 */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* カード */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* バッジ */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .badge-green { background: var(--accent-light); color: var(--accent-text); }
+  .badge-red { background: var(--danger-light); color: var(--danger-text); }
+  .badge-gray { background: #f0ede8; color: var(--text-muted); }
+
+  /* ボタン */
+  button {
+    font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  button:active { transform: scale(0.97); }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+
+  .btn-outline {
+    padding: 9px 16px;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .btn-outline:hover { background: var(--bg); }
+
+  .btn-text {
+    background: none;
+    border: none;
+    font-size: 13px;
+    color: var(--accent);
+    padding: 4px 0;
+  }
+
+  /* フォーム */
+  input, textarea, select {
+    width: 100%;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+    margin-bottom: 10px;
+  }
+  input:focus, textarea:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 60px; }
+  label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+
+  /* タブ */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    background: #efede9;
+    border-radius: var(--radius-sm);
+    padding: 3px;
+    margin-bottom: 14px;
+  }
+  .tab {
+    flex: 1;
+    padding: 7px 4px;
+    font-size: 12px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 6px;
+    text-align: center;
+  }
+  .tab.active {
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 500;
+    box-shadow: var(--shadow);
+  }
+
+  /* イベントヘッダー */
+  .event-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .event-title { font-size: 18px; font-weight: 700; color: var(--text); }
+  .event-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  /* 日程表 */
+  .schedule-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .schedule-table th {
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 6px 4px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .schedule-table th:first-child { text-align: left; }
+  .schedule-table td {
+    padding: 7px 4px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .schedule-table td:first-child { text-align: left; font-size: 13px; }
+  .schedule-table tr:last-child td { border-bottom: none; }
+
+  .avail-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+  }
+  .avail-btn.sel-o { background: #d4edda; border-color: #a3cfbb; }
+  .avail-btn.sel-d { background: #fff3cd; border-color: #f0d090; }
+  .avail-btn.sel-x { background: #fde8e8; border-color: #f5b8b8; }
+
+  .count-cell {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  /* 確定バナー */
+  .confirm-bar {
+    background: var(--accent-light);
+    border: 1px solid #a3cfbb;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--accent-text);
+  }
+
+  /* 集金 */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .stat {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    text-align: center;
+  }
+  .stat-label { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
+  .stat-val { font-size: 20px; font-weight: 700; color: var(--text); }
+
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .member-row:last-child { border-bottom: none; }
+  .avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent-text);
+    flex-shrink: 0;
+  }
+
+  /* お店情報 */
+  .shop-row {
+    display: flex;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .shop-row:last-child { border-bottom: none; }
+  .shop-key { color: var(--text-muted); width: 70px; flex-shrink: 0; font-size: 12px; padding-top: 1px; }
+  .shop-val { color: var(--text); flex: 1; line-height: 1.5; }
+  .shop-link { color: var(--accent); text-decoration: none; }
+  .shop-link:hover { text-decoration: underline; }
+
+  /* AI相談 */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .quick-btn {
+    padding: 9px 10px;
+    font-size: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    text-align: left;
+    line-height: 1.4;
+  }
+  .quick-btn:hover { background: var(--accent-light); border-color: #a3cfbb; color: var(--accent-text); }
+
+  .chat-input-row { display: flex; gap: 8px; }
+  .chat-input-row input { flex: 1; margin-bottom: 0; }
+  .chat-input-row button {
+    padding: 10px 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .note { font-size: 11px; color: var(--text-subtle); margin-top: 8px; line-height: 1.5; }
+
+  /* URL共有 */
+  .url-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    word-break: break-all;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  .url-box strong { color: var(--text); display: block; margin-bottom: 4px; }
+
+  /* セーブステータス */
+  .save-status {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    min-height: 18px;
+  }
+
+  /* 作成フォーム */
+  .form-section { margin-bottom: 20px; }
+  .form-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .date-item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .date-item input { margin-bottom: 0; flex: 1; }
+  .date-remove {
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    font-size: 16px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .member-add-row {
+    display: flex;
+    gap: 8px;
+  }
+  .member-add-row input { flex: 1; margin-bottom: 0; }
+  .member-add-row button {
+    padding: 10px 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .member-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-light);
+    color: var(--accent-text);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    margin: 3px;
+  }
+  .member-chip button {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 14px;
+    padding: 0;
+    line-height: 1;
+  }
+
+  /* トースト */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1917;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; }
+
+  /* アニメーション */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card { animation: fadeIn 0.2s ease; }
+
+  /* ローディング */
+  .loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .spinner {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
-<div id="app">
 
-<div id="s-create" style="display:block;">
-<div class="hdr">
-<span class="hdr-title">幹事くん</span>
-<span style="font-size:12px;color:#888;">新規イベント</span>
-</div>
-<div class="sec">
-<div class="lbl">イベント名</div>
-<input class="inp" id="event-name" placeholder="例：忘年会2025" oninput="calc()">
-</div>
-<div class="sec" style="padding-top:0;">
-<div class="lbl">参加メンバー</div>
-<div class="card" id="member-list">
-<div class="mrow"><div class="av" style="background:#e8f0fe;color:#3a6bc4;">田</div><input class="inp" style="flex:1;border:none;padding:0;font-size:14px;" value="田中（幹事）" oninput="calc()"></div>
-<div class="mrow"><div class="av" style="background:#e8f5e9;color:#2e7d32;">佐</div><input class="inp" style="flex:1;border:none;padding:0;font-size:14px;" value="佐藤" oninput="calc()"></div>
-<div class="mrow"><div class="av" style="background:#fff8e1;color:#f57f17;">鈴</div><input class="inp" style="flex:1;border:none;padding:0;font-size:14px;" value="鈴木" oninput="calc()"></div>
-<div class="mrow"><div class="av" style="background:#fce4ec;color:#c62828;">山</div><input class="inp" style="flex:1;border:none;padding:0;font-size:14px;" value="山田" oninput="calc()"></div>
-</div>
-<button class="add-btn" onclick="addMember()">＋ メンバーを追加</button>
-</div>
-<div class="sec" style="padding-top:0;">
-<div class="lbl">立替記録</div>
-<div class="card" id="tatekai-list">
-<div class="trow"><div style="flex:1;"><div style="font-size:13px;color:#1a1a1a;">田中が立替</div><div style="font-size:11px;color:#888;">居酒屋代</div></div><input class="inp" style="width:86px;text-align:right;font-size:14px;font-weight:600;" value="24000" oninput="calc()"><span style="font-size:13px;color:#888;flex-shrink:0;">円</span></div>
-<div class="trow"><div style="flex:1;"><div style="font-size:13px;color:#1a1a1a;">佐藤が立替</div><div style="font-size:11px;color:#888;">2次会代</div></div><input class="inp" style="width:86px;text-align:right;font-size:14px;font-weight:600;" value="8000" oninput="calc()"><span style="font-size:13px;color:#888;flex-shrink:0;">円</span></div>
-</div>
-<button class="add-btn" onclick="addTatekai()">＋ 立替を追加</button>
-</div>
-<div class="sec" style="padding-top:0;">
-<div class="lbl">清算結果（自動計算）</div>
-<div class="res-card" id="result-area"></div>
-<div class="lbl">支払い期限</div>
-<input type="date" class="inp" id="deadline" style="margin-top:6px;margin-bottom:4px;">
-<button class="pbtn" onclick="goTo('s-setup')">支払いページを作成する →</button>
-</div>
+<div class="top-bar">
+  <div class="logo">幹事くん <span>β</span></div>
 </div>
 
-<div id="s-setup" style="display:none;">
-<div class="hdr">
-<button class="bbtn" onclick="goTo('s-create')">← 戻る</button>
-<span class="hdr-title">受取口座・催促設定</span>
-<span></span>
-</div>
-<div class="sec">
-<div class="lbl">PayPay ID（表示用）</div>
-<input class="inp" id="paypay-id" placeholder="例：090-1234-5678" style="margin-bottom:12px;">
-<div class="lbl">銀行口座（表示用）</div>
-<input class="inp" id="bank-name" placeholder="銀行名・支店・口座番号">
-</div>
-<div class="sec" style="padding-top:0;">
-<div class="lbl">自動催促の設定</div>
-<div class="card">
-<div class="rrow"><div><div style="font-size:13px;color:#1a1a1a;">1回目（やさしく）</div><div style="font-size:11px;color:#888;">期限3日前に自動送信</div></div><span class="rbadge" style="background:#e8f5e9;color:#2e7d32;">ON</span></div>
-<div class="rrow"><div><div style="font-size:13px;color:#1a1a1a;">2回目（ちょい圧）</div><div style="font-size:11px;color:#888;">期限1日前に自動送信</div></div><span class="rbadge" style="background:#e8f5e9;color:#2e7d32;">ON</span></div>
-<div class="rrow"><div><div style="font-size:13px;color:#1a1a1a;">3回目（締切明示）</div><div style="font-size:11px;color:#888;">期限当日に自動送信</div></div><span class="rbadge" style="background:#e8f5e9;color:#2e7d32;">ON</span></div>
-</div>
-<div style="font-size:12px;color:#888;padding:4px 2px 16px;">※ 催促は「幹事くん自動通知」として送信されます</div>
-<button class="pbtn" onclick="doCreateEvent()">イベントを作成してURLを発行する →</button>
-</div>
-</div>
+<div class="container">
 
-<div id="s-share" style="display:none;">
-<div class="hdr">
-<span class="hdr-title">幹事くん</span>
-</div>
-<div class="sec" style="text-align:center;padding:32px 16px 20px;">
-<div style="font-size:14px;color:#888;margin-bottom:6px;">イベントが作成されました</div>
-<div style="font-size:19px;font-weight:700;color:#1a1a1a;margin-bottom:24px;" id="share-name">-</div>
-<div style="background:#f5f5f5;border-radius:10px;padding:14px;font-size:13px;color:#4a7de8;word-break:break-all;margin-bottom:16px;">https://kanji-kun.jp/pay/abc123</div>
-<button class="pbtn" onclick="doCopyUrl()">URLをコピーしてLINEで送る</button>
-<button class="sbtn" onclick="goTo('s-manage')">管理画面を見る →</button>
-</div>
-</div>
+  <!-- ===== 作成スクリーン ===== -->
+  <div class="screen active" id="screen-create">
+    <div class="card" style="margin-top:8px;">
+      <div class="card-title">イベントを作成する</div>
 
-<div id="s-pay" style="display:none;">
-<div class="hdr">
-<span class="hdr-title">幹事くん</span>
-<span style="font-size:11px;color:#888;">支払いページ</span>
-</div>
-<div class="sec" style="text-align:center;padding:24px 16px 16px;">
-<div style="font-size:13px;color:#888;margin-bottom:4px;" id="pay-ename">-</div>
-<div style="font-size:14px;color:#888;margin-bottom:4px;">鈴木さんの支払い金額</div>
-<div style="font-size:38px;font-weight:700;color:#1a1a1a;margin-bottom:4px;">¥6,000</div>
-<div style="font-size:13px;color:#888;">田中さんへ</div>
-</div>
-<div class="sec" style="padding-top:0;">
-<div class="cbar"><span style="font-size:12px;color:#f57f17;">支払い期限まで</span><span style="font-size:14px;font-weight:600;color:#f57f17;">あと 2日 14時間</span></div>
-<div class="lbl">支払い先</div>
-<div class="card">
-<div class="prow"><div class="pic" style="background:#e8f0fe;color:#3a6bc4;">P</div><div><div style="font-size:11px;color:#888;">PayPay ID</div><div style="font-size:14px;font-weight:500;color:#1a1a1a;" id="disp-paypay">tanaka_kanji</div></div><button class="cbtn" onclick="doCopyPaypay()">コピー</button></div>
-<div class="prow"><div class="pic" style="background:#f5f5f5;color:#555;">銀</div><div><div style="font-size:11px;color:#888;">銀行振込</div><div style="font-size:13px;font-weight:500;color:#1a1a1a;" id="disp-bank">三菱UFJ 普通 1234567</div></div><button class="cbtn" onclick="doCopyBank()">コピー</button></div>
-</div>
-<div class="lbl" style="margin-bottom:8px;">他の参加者の状況</div>
-<div class="card" style="margin-bottom:16px;">
-<div style="display:flex;gap:8px;flex-wrap:wrap;">
-<span style="font-size:12px;padding:4px 10px;border-radius:20px;background:#e8f5e9;color:#2e7d32;">佐藤 確認済</span>
-<span style="font-size:12px;padding:4px 10px;border-radius:20px;background:#fff8e1;color:#f57f17;">鈴木 未払い</span>
-<span style="font-size:12px;padding:4px 10px;border-radius:20px;background:#fff8e1;color:#f57f17;">山田 未払い</span>
-</div>
-</div>
-<button class="paid-btn" id="paid-btn" onclick="doReportPaid()">支払いました ✓</button>
-<div style="font-size:11px;color:#aaa;text-align:center;margin-top:8px;">タップすると幹事さんに通知されます</div>
-</div>
-</div>
+      <div class="form-section">
+        <div class="form-section-title">基本情報</div>
+        <label>イベント名</label>
+        <input type="text" id="f-title" placeholder="例：先輩の送別会">
+        <label>参加費（円）</label>
+        <input type="number" id="f-amount" placeholder="5000">
+      </div>
 
-<div id="s-manage" style="display:none;">
-<div class="hdr">
-<button class="bbtn" onclick="goTo('s-share')">← 戻る</button>
-<span class="hdr-title">管理画面</span>
-<span></span>
-</div>
-<div class="sec">
-<div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:12px;" id="manage-name">-</div>
-<div class="mgrid">
-<div class="mc"><div style="font-size:11px;color:#888;margin-bottom:4px;">回収率</div><div style="font-size:24px;font-weight:700;color:#1a1a1a;" id="m-rate">33%</div></div>
-<div class="mc"><div style="font-size:11px;color:#888;margin-bottom:4px;">未回収額</div><div style="font-size:22px;font-weight:700;color:#e53935;" id="m-unpaid">¥12,000</div></div>
-<div class="mc"><div style="font-size:11px;color:#888;margin-bottom:4px;">確認済み</div><div style="font-size:24px;font-weight:700;color:#2e7d32;" id="m-conf">1 / 3</div></div>
-<div class="mc"><div style="font-size:11px;color:#888;margin-bottom:4px;">期限まで</div><div style="font-size:24px;font-weight:700;color:#f57f17;">2日</div></div>
-</div>
-</div>
-<div class="sec" style="padding-top:0;">
-<div class="lbl">支払いステータス</div>
-<div class="card">
-<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:0.5px solid #f0f0f0;"><div class="sdot" style="background:#4caf50;"></div><div style="flex:1;"><div style="font-size:13px;color:#1a1a1a;">佐藤</div><div style="font-size:11px;color:#2e7d32;">確認済み ¥4,000</div></div></div>
-<div id="row-suzuki" style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:0.5px solid #f0f0f0;"><div class="sdot" style="background:#ffc107;"></div><div style="flex:1;"><div style="font-size:13px;color:#1a1a1a;">鈴木</div><div id="suzuki-status" style="font-size:11px;color:#f57f17;">支払い済み（未確認） ¥6,000</div></div><button class="cfbtn" id="suzuki-btn" onclick="doConfirm('suzuki')">確認する</button></div>
-<div id="row-yamada" style="display:flex;align-items:center;gap:10px;padding:9px 0;"><div class="sdot" style="background:#e0e0e0;"></div><div style="flex:1;"><div style="font-size:13px;color:#1a1a1a;">山田</div><div id="yamada-status" style="font-size:11px;color:#888;">未払い ¥6,000</div></div><button class="cfbtn" style="background:#fff;color:#555;border:0.5px solid #ccc;" onclick="showToast('催促メールを送信しました')">催促する</button></div>
-</div>
-</div>
-<div class="sec" style="padding-top:0;">
-<div class="lbl">自動催促の状況</div>
-<div class="card">
-<div class="rrow"><div><div style="font-size:13px;color:#1a1a1a;">1回目（やさしく）</div><div style="font-size:11px;color:#888;">期限3日前 / 送信済み</div></div><span class="rbadge" style="background:#e8f5e9;color:#2e7d32;">完了</span></div>
-<div class="rrow"><div><div style="font-size:13px;color:#1a1a1a;">2回目（ちょい圧）</div><div style="font-size:11px;color:#888;">期限1日前 / 明日送信予定</div></div><span class="rbadge" style="background:#fff8e1;color:#f57f17;">予定</span></div>
-<div class="rrow"><div><div style="font-size:13px;color:#1a1a1a;">3回目（締切明示）</div><div style="font-size:11px;color:#888;">期限当日 / 待機中</div></div><span class="rbadge" style="background:#f5f5f5;color:#888;">待機</span></div>
-</div>
-<div id="complete-banner" style="display:none;background:#f0faf4;border:0.5px solid #a8d9b5;border-radius:12px;padding:16px;text-align:center;margin-top:8px;">
-<div style="font-size:15px;color:#2e7d4f;font-weight:600;">全員支払い完了！</div>
-<div style="font-size:13px;color:#2e7d4f;margin-top:4px;">回収率 100% 達成！</div>
-</div>
-</div>
-</div>
+      <div class="form-section">
+        <div class="form-section-title">日程候補</div>
+        <div id="date-list">
+          <div class="date-item">
+            <input type="text" placeholder="例：5/10(金)" class="date-input">
+            <button class="date-remove" onclick="removeDate(this)">×</button>
+          </div>
+        </div>
+        <button class="btn-text" onclick="addDate()">＋ 日程を追加</button>
+      </div>
 
-<div id="toast"></div>
-</div>
+      <div class="form-section">
+        <div class="form-section-title">参加者</div>
+        <div class="member-add-row">
+          <input type="text" id="member-input" placeholder="名前を入力" onkeydown="if(event.key==='Enter')addMember()">
+          <button onclick="addMember()">追加</button>
+        </div>
+        <div id="member-chips" style="margin-top:6px;"></div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">お店情報（任意）</div>
+        <label>お店名</label>
+        <input type="text" id="f-shop-name" placeholder="例：串カツ田中 渋谷店">
+        <label>住所</label>
+        <input type="text" id="f-shop-address" placeholder="例：東京都渋谷区...">
+        <label>予約URL・食べログリンク</label>
+        <input type="text" id="f-shop-url" placeholder="https://...">
+        <label>予算</label>
+        <input type="text" id="f-shop-budget" placeholder="例：¥4,000〜5,000/人">
+        <label>幹事メモ</label>
+        <textarea id="f-shop-memo" placeholder="例：個室あり。18時〜予約済み。"></textarea>
+      </div>
+
+      <button class="btn-primary" onclick="submitCreateEvent()">イベントを作成してURLを発行</button>
+      <div class="save-status" id="create-status"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:8px;">
+      <button class="btn-text" onclick="showLoad()">既存のイベントを開く（IDで読み込み）</button>
+    </div>
+  </div>
+
+  <!-- ===== 読み込みスクリーン ===== -->
+  <div class="screen" id="screen-load">
+    <div class="card" style="margin-top:8px;">
+      <div class="card-title">イベントIDを入力</div>
+      <input type="text" id="load-bin-id" placeholder="Bin IDを貼り付け">
+      <button class="btn-primary" onclick="loadEvent()">読み込む</button>
+      <div class="save-status" id="load-status"></div>
+    </div>
+    <div style="text-align:center;margin-top:8px;">
+      <button class="btn-text" onclick="showScreen('screen-create')">← 新規作成に戻る</button>
+    </div>
+  </div>
+
+  <!-- ===== メインスクリーン ===== -->
+  <div class="screen" id="screen-main">
+
+    <!-- イベントヘッダー -->
+    <div class="card" style="margin-top:8px;">
+      <div class="event-header">
+        <div>
+          <div class="event-title" id="m-title"></div>
+          <div class="event-sub" id="m-sub"></div>
+        </div>
+        <span class="badge" id="m-status-badge"></span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+        <button class="btn-outline" onclick="saveData()">保存・更新</button>
+        <button class="btn-outline" onclick="showUrlBox()">URLを共有</button>
+        <button class="btn-outline" onclick="showScreen('screen-create')">新規作成</button>
+      </div>
+      <div class="save-status" id="save-status"></div>
+      <div id="url-display"></div>
+    </div>
+
+    <!-- タブ -->
+    <div class="tabs">
+      <button class="tab active" id="tab-schedule" onclick="switchTab('schedule')">日程</button>
+      <button class="tab" id="tab-shop" onclick="switchTab('shop')">お店</button>
+      <button class="tab" id="tab-payment" onclick="switchTab('payment')">集金</button>
+      <button class="tab" id="tab-ai" onclick="switchTab('ai')">AI相談</button>
+    </div>
+
+    <!-- 日程タブ -->
+    <div id="panel-schedule">
+      <div class="card">
+        <div id="confirmed-bar" style="display:none" class="confirm-bar">
+          <span>確定日：<strong id="confirmed-date-label"></strong></span>
+          <button class="btn-text" onclick="unconfirm()" style="font-size:12px;">変更</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="schedule-table" id="schedule-table"></table>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;" id="confirm-btns"></div>
+      </div>
+    </div>
+
+    <!-- お店タブ -->
+    <div id="panel-shop" style="display:none;">
+      <div class="card">
+        <div class="card-title">お店情報</div>
+        <div id="shop-content"></div>
+      </div>
+    </div>
+
+    <!-- 集金タブ -->
+    <div id="panel-payment" style="display:none;">
+      <div class="card">
+        <div class="card-title">集金状況</div>
+        <div class="summary-grid">
+          <div class="stat"><div class="stat-label">集金済み</div><div class="stat-val" id="paid-count">0</div></div>
+          <div class="stat"><div class="stat-label">未払い</div><div class="stat-val" id="unpaid-count" style="color:var(--danger)">0</div></div>
+          <div class="stat"><div class="stat-label">残額</div><div class="stat-val" id="remain-amount" style="font-size:16px;color:var(--danger)">¥0</div></div>
+        </div>
+        <div id="member-list"></div>
+      </div>
+    </div>
+
+    <!-- AI相談タブ -->
+    <div id="panel-ai" style="display:none;">
+      <div class="card">
+        <div class="card-title">AIに相談</div>
+        <div class="quick-grid">
+          <button class="quick-btn" onclick="ask('日程調整の結果を教えて。どの日が一番みんな参加できる？')">📅 最適な日程は？</button>
+          <button class="quick-btn" onclick="ask('未払いの人への催促メッセージを作って')">💰 催促文を作る</button>
+          <button class="quick-btn" onclick="ask('参加者への日程確定の連絡文をLINEで送れる形で作って')">📢 確定連絡文</button>
+          <button class="quick-btn" onclick="ask('幹事として次に何をすべきか提案して')">✅ 次のアクション</button>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="自由に相談..." onkeydown="if(event.key==='Enter')sendChat()">
+          <button onclick="sendChat()">送信</button>
+        </div>
+        <p class="note">送信するとClaudeのチャットに状況を渡して返答してもらえます</p>
+      </div>
+    </div>
+
+  </div><!-- /screen-main -->
+
+</div><!-- /container -->
+
+<div class="toast" id="toast"></div>
 
 <script>
-var SCREENS = ['s-create','s-setup','s-share','s-pay','s-manage'];
-var mCount = 4;
-var confCount = 1;
-var totalM = 3;
-var avC = [['#e8f0fe','#3a6bc4'],['#e8f5e9','#2e7d32'],['#fff8e1','#f57f17'],['#fce4ec','#c62828'],['#f3e5f5','#6a1b9a'],['#e0f2f1','#00695c']];
+const API_KEY = '$2a$10$WKpeTULteF.d9Z5rrC1DZOLc2gf5tOGcXsiSdfQonzoi3J2VmBPaq';
+const BASE = 'https://api.jsonbin.io/v3';
 
-function goTo(id) {
-  for (var i = 0; i < SCREENS.length; i++) {
-    document.getElementById(SCREENS[i]).style.display = 'none';
-  }
-  document.getElementById(id).style.display = 'block';
-  window.scrollTo(0, 0);
+let state = {
+  title: '',
+  amount: 0,
+  dates: [],
+  members: [],
+  shop: {},
+  confirmedDate: null
+};
+let currentBinId = null;
+let newMembers = [];
+
+// ===== スクリーン制御 =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
+function showLoad() { showScreen('screen-load'); }
 
-function doCreateEvent() {
-  var name = document.getElementById('event-name').value;
-  if (!name) name = '忘年会2025';
-  document.getElementById('share-name').textContent = name;
-  document.getElementById('pay-ename').textContent = name;
-  document.getElementById('manage-name').textContent = name;
-  var paypay = document.getElementById('paypay-id').value;
-  if (!paypay) paypay = 'tanaka_kanji';
-  var bank = document.getElementById('bank-name').value;
-  if (!bank) bank = '三菱UFJ 普通 1234567';
-  document.getElementById('disp-paypay').textContent = paypay;
-  document.getElementById('disp-bank').textContent = bank;
-  goTo('s-share');
+// ===== 作成フォーム =====
+function addDate() {
+  const div = document.createElement('div');
+  div.className = 'date-item';
+  div.innerHTML = `<input type="text" placeholder="例：5/10(金)" class="date-input"><button class="date-remove" onclick="removeDate(this)">×</button>`;
+  document.getElementById('date-list').appendChild(div);
 }
-
+function removeDate(btn) {
+  const items = document.querySelectorAll('.date-item');
+  if (items.length > 1) btn.parentElement.remove();
+}
 function addMember() {
-  var c = avC[mCount % avC.length];
-  var row = document.createElement('div');
-  row.className = 'mrow';
-  row.innerHTML = '<div class="av" style="background:' + c[0] + ';color:' + c[1] + ';">' + (mCount + 1) + '</div><input class="inp" style="flex:1;border:none;padding:0;font-size:14px;" placeholder="名前を入力" oninput="calc()">';
-  document.getElementById('member-list').appendChild(row);
-  mCount++;
-  calc();
+  const input = document.getElementById('member-input');
+  const name = input.value.trim();
+  if (!name) return;
+  if (!newMembers.includes(name)) {
+    newMembers.push(name);
+    renderChips();
+  }
+  input.value = '';
+}
+function removeMember(name) {
+  newMembers = newMembers.filter(m => m !== name);
+  renderChips();
+}
+function renderChips() {
+  document.getElementById('member-chips').innerHTML = newMembers.map(n =>
+    `<span class="member-chip">${n}<button onclick="removeMember('${n}')">×</button></span>`
+  ).join('');
 }
 
-function addTatekai() {
-  var row = document.createElement('div');
-  row.className = 'trow';
-  row.innerHTML = '<div style="flex:1;"><div style="font-size:13px;color:#1a1a1a;">立替者</div><div style="font-size:11px;color:#888;">内容</div></div><input class="inp" style="width:86px;text-align:right;font-size:14px;font-weight:600;" value="0" oninput="calc()"><span style="font-size:13px;color:#888;flex-shrink:0;">円</span>';
-  document.getElementById('tatekai-list').appendChild(row);
-  calc();
-}
+async function submitCreateEvent() {
+  const title = document.getElementById('f-title').value.trim();
+  const amount = parseInt(document.getElementById('f-amount').value) || 0;
+  const dates = [...document.querySelectorAll('.date-input')].map(i => i.value.trim()).filter(Boolean);
 
-function calc() {
-  var amts = document.querySelectorAll('#tatekai-list input');
-  var total = 0;
-  for (var i = 0; i < amts.length; i++) {
-    total += parseInt(amts[i].value.replace(/,/g, '')) || 0;
-  }
-  var mems = document.querySelectorAll('#member-list input');
-  var names = [];
-  for (var i = 0; i < mems.length; i++) {
-    if (mems[i].value.trim()) names.push(mems[i].value.trim());
-  }
-  var n = names.length;
-  var area = document.getElementById('result-area');
-  if (n < 2) {
-    area.innerHTML = '<div style="font-size:13px;color:#888;text-align:center;padding:8px 0;">メンバーを2人以上入力してください</div>';
+  if (!title || dates.length === 0 || newMembers.length === 0) {
+    showToast('イベント名・日程候補・参加者を入力してください');
     return;
   }
-  var per = Math.round(total / n);
-  var html = '';
-  for (var i = 1; i < n; i++) {
-    html += '<div class="res-row"><span>' + names[i] + ' → ' + names[0] + '</span><span style="font-weight:600;">¥' + per.toLocaleString() + '</span></div>';
+
+  state = {
+    title,
+    amount,
+    dates,
+    members: newMembers.map(name => ({
+      name,
+      initial: name[0],
+      paid: false,
+      avail: Object.fromEntries(dates.map(d => [d, '']))
+    })),
+    shop: {
+      name: document.getElementById('f-shop-name').value.trim(),
+      address: document.getElementById('f-shop-address').value.trim(),
+      url: document.getElementById('f-shop-url').value.trim(),
+      budget: document.getElementById('f-shop-budget').value.trim(),
+      memo: document.getElementById('f-shop-memo').value.trim()
+    },
+    confirmedDate: null
+  };
+
+  const status = document.getElementById('create-status');
+  status.textContent = '作成中...';
+  try {
+    const res = await fetch(`${BASE}/b`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': API_KEY,
+        'X-Bin-Name': 'kanji-kun-event',
+        'X-Bin-Private': 'false'
+      },
+      body: JSON.stringify(state)
+    });
+    const data = await res.json();
+    currentBinId = data.metadata?.id;
+    status.textContent = '';
+    showMain();
+    showToast('イベントを作成しました！');
+  } catch(e) {
+    status.textContent = 'エラー: ' + e.message;
   }
-  if (!html) html = '<div style="font-size:13px;color:#888;text-align:center;padding:8px 0;">金額を入力してください</div>';
-  area.innerHTML = html;
 }
 
-function doReportPaid() {
-  var btn = document.getElementById('paid-btn');
-  btn.style.background = '#e8f5e9';
-  btn.style.color = '#2e7d32';
-  btn.textContent = '支払い済み（確認待ち）✓';
-  btn.onclick = null;
-  showToast('幹事さんに通知しました');
-}
-
-function doConfirm(who) {
-  confCount++;
-  if (who === 'suzuki') {
-    document.getElementById('suzuki-status').textContent = '確認済み ¥6,000';
-    document.getElementById('suzuki-status').style.color = '#2e7d32';
-    document.getElementById('row-suzuki').querySelector('.sdot').style.background = '#4caf50';
-    document.getElementById('suzuki-btn').style.display = 'none';
-  }
-  var rate = Math.round(confCount / totalM * 100);
-  document.getElementById('m-rate').textContent = rate + '%';
-  document.getElementById('m-conf').textContent = confCount + ' / ' + totalM;
-  var unpaid = (totalM - confCount) * 6000;
-  document.getElementById('m-unpaid').textContent = unpaid > 0 ? '¥' + unpaid.toLocaleString() : '¥0';
-  if (confCount >= totalM) {
-    document.getElementById('complete-banner').style.display = 'block';
-    showToast('全員の支払いが完了しました！');
+async function loadEvent() {
+  const binId = document.getElementById('load-bin-id').value.trim();
+  if (!binId) return;
+  const status = document.getElementById('load-status');
+  status.textContent = '読み込み中...';
+  try {
+    const res = await fetch(`${BASE}/b/${binId}/latest`, {
+      headers: { 'X-Master-Key': API_KEY }
+    });
+    const data = await res.json();
+    state = data.record;
+    currentBinId = binId;
+    status.textContent = '';
+    showMain();
+    showToast('読み込みました！');
+  } catch(e) {
+    status.textContent = '読み込みに失敗しました。IDを確認してください。';
   }
 }
 
-function doCopyUrl() {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText('https://kanji-kun.jp/pay/abc123');
+async function saveData() {
+  if (!currentBinId) return;
+  const status = document.getElementById('save-status');
+  status.textContent = '保存中...';
+  try {
+    await fetch(`${BASE}/b/${currentBinId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+      body: JSON.stringify(state)
+    });
+    status.textContent = '保存しました ✓';
+    setTimeout(() => status.textContent = '', 2000);
+  } catch(e) {
+    status.textContent = 'エラー: ' + e.message;
   }
-  showToast('URLをコピーしました！LINEで送ってください');
 }
 
-function doCopyPaypay() {
-  var v = document.getElementById('disp-paypay').textContent;
-  if (navigator.clipboard) { navigator.clipboard.writeText(v); }
-  showToast('PayPay IDをコピーしました');
+function showUrlBox() {
+  const box = document.getElementById('url-display');
+  if (box.innerHTML) { box.innerHTML = ''; return; }
+  box.innerHTML = `
+    <div class="url-box">
+      <strong>イベントID（参加者に共有）</strong>
+      ${currentBinId}
+      <div style="margin-top:6px;font-size:11px;color:var(--text-subtle);">このIDを参加者に送ってください。「既存のイベントを開く」からIDを入力すると同じイベントを見られます。</div>
+    </div>`;
 }
 
-function doCopyBank() {
-  var v = document.getElementById('disp-bank').textContent;
-  if (navigator.clipboard) { navigator.clipboard.writeText(v); }
-  showToast('口座番号をコピーしました');
+// ===== メイン画面 =====
+function showMain() {
+  showScreen('screen-main');
+  document.getElementById('m-title').textContent = state.title;
+  document.getElementById('m-sub').textContent = `参加費 ¥${state.amount.toLocaleString()} ／ ${state.members.length}名`;
+  renderSchedule();
+  renderShop();
+  renderPayment();
+  updateStatusBadge();
 }
 
+function switchTab(tab) {
+  ['schedule','shop','payment','ai'].forEach(t => {
+    document.getElementById('panel-'+t).style.display = t===tab ? 'block' : 'none';
+    document.getElementById('tab-'+t).className = 'tab' + (t===tab ? ' active' : '');
+  });
+}
+
+// ===== 日程 =====
+function renderSchedule() {
+  const tbl = document.getElementById('schedule-table');
+  let html = '<thead><tr><th>名前</th>';
+  state.dates.forEach(d => html += `<th>${d}</th>`);
+  html += '</tr></thead><tbody>';
+
+  state.members.forEach((m, mi) => {
+    html += `<tr><td>${m.name}</td>`;
+    state.dates.forEach(d => {
+      const v = m.avail[d] || '';
+      const cls = v==='○'?'sel-o':v==='△'?'sel-d':v==='×'?'sel-x':'';
+      html += `<td><button class="avail-btn ${cls}" onclick="cycleAvail(${mi},'${d}')">${v||'—'}</button></td>`;
+    });
+    html += '</tr>';
+  });
+
+  html += '<tr><td style="font-size:12px;color:var(--text-muted);padding-top:10px;">○の数</td>';
+  state.dates.forEach(d => {
+    const c = state.members.filter(m => m.avail[d]==='○').length;
+    html += `<td class="count-cell" style="padding-top:10px;">${c}</td>`;
+  });
+  html += '</tr></tbody>';
+  tbl.innerHTML = html;
+
+  const btns = document.getElementById('confirm-btns');
+  btns.innerHTML = state.confirmedDate ? '' : state.dates.map(d =>
+    `<button class="btn-outline" onclick="confirmDate('${d}')" style="font-size:12px;">${d} で確定</button>`
+  ).join('');
+
+  const bar = document.getElementById('confirmed-bar');
+  if (state.confirmedDate) {
+    bar.style.display = 'flex';
+    document.getElementById('confirmed-date-label').textContent = state.confirmedDate;
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+function cycleAvail(mi, date) {
+  const cycle = ['○','△','×',''];
+  const cur = state.members[mi].avail[date] || '';
+  state.members[mi].avail[date] = cycle[(cycle.indexOf(cur)+1) % cycle.length];
+  renderSchedule();
+}
+
+function confirmDate(d) {
+  state.confirmedDate = d;
+  renderSchedule();
+  updateStatusBadge();
+  saveData();
+  ask(`${d}で日程が確定しました。参加者全員への確定連絡文をLINEで送れる形で作ってください。`);
+  switchTab('ai');
+}
+
+function unconfirm() {
+  state.confirmedDate = null;
+  renderSchedule();
+  updateStatusBadge();
+}
+
+function updateStatusBadge() {
+  const badge = document.getElementById('m-status-badge');
+  if (state.confirmedDate) {
+    badge.textContent = '日程確定';
+    badge.className = 'badge badge-green';
+  } else {
+    badge.textContent = '日程調整中';
+    badge.className = 'badge badge-red';
+  }
+}
+
+// ===== お店 =====
+function renderShop() {
+  const s = state.shop;
+  const rows = [
+    ['お店名', s.name],
+    ['住所', s.address],
+    ['予算', s.budget],
+    ['リンク', s.url ? `<a href="${s.url}" target="_blank" class="shop-link">${s.url}</a>` : ''],
+    ['メモ', s.memo]
+  ].filter(([,v]) => v);
+
+  document.getElementById('shop-content').innerHTML = rows.length
+    ? rows.map(([k,v]) => `<div class="shop-row"><span class="shop-key">${k}</span><span class="shop-val">${v}</span></div>`).join('')
+    : '<div style="font-size:13px;color:var(--text-subtle);padding:8px 0;">お店情報が登録されていません</div>';
+}
+
+// ===== 集金 =====
+function renderPayment() {
+  const paid = state.members.filter(m => m.paid).length;
+  document.getElementById('paid-count').textContent = paid;
+  document.getElementById('unpaid-count').textContent = state.members.length - paid;
+  document.getElementById('remain-amount').textContent = '¥' + ((state.members.length - paid) * state.amount).toLocaleString();
+  document.getElementById('member-list').innerHTML = state.members.map((m, i) => `
+    <div class="member-row">
+      <div class="avatar">${m.initial}</div>
+      <span style="flex:1;font-size:14px;">${m.name}</span>
+      <span class="badge ${m.paid?'badge-green':'badge-red'}">${m.paid?'支払済':'未払い'}</span>
+      <button class="btn-outline" style="font-size:11px;padding:5px 10px;" onclick="togglePaid(${i})">${m.paid?'戻す':'済にする'}</button>
+    </div>
+  `).join('');
+}
+
+function togglePaid(i) {
+  state.members[i].paid = !state.members[i].paid;
+  renderPayment();
+}
+
+// ===== AI相談 =====
+function getContext() {
+  const unpaid = state.members.filter(m => !m.paid).map(m => m.name);
+  const paid = state.members.filter(m => m.paid).map(m => m.name);
+  const dateInfo = state.dates.map(d => {
+    const c = state.members.filter(m => m.avail[d]==='○').length;
+    return `${d}(○${c}人)`;
+  }).join(' / ');
+  return `【幹事くん 現在の状況】\nイベント: ${state.title}\nお店: ${state.shop.name||'未設定'}（予算${state.shop.budget||'未設定'}）\n参加費: ${state.amount.toLocaleString()}円\n日程候補: ${dateInfo}\n確定日: ${state.confirmedDate||'未確定'}\n支払済: ${paid.join('、')||'なし'}\n未払い: ${unpaid.join('、')||'なし'}`;
+}
+
+function ask(q) {
+  if (typeof sendPrompt === 'function') {
+    sendPrompt(getContext() + '\n\n' + q);
+  } else {
+    // GitHub Pages上ではLINEシェアなどに切り替え可能
+    alert(getContext() + '\n\n' + q);
+  }
+}
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  ask(msg);
+}
+
+// ===== ユーティリティ =====
 function showToast(msg) {
-  var t = document.getElementById('toast');
+  const t = document.getElementById('toast');
   t.textContent = msg;
-  t.style.opacity = '1';
-  setTimeout(function() { t.style.opacity = '0'; }, 2500);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-var d = new Date();
-d.setDate(d.getDate() + 7);
-document.getElementById('deadline').value = d.toISOString().split('T')[0];
-calc();
+// URLパラメータからBin IDを自動読み込み
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(location.search);
+  const binId = params.get('id');
+  if (binId) {
+    document.getElementById('load-bin-id').value = binId;
+    loadEvent();
+  }
+});
 </script>
 </body>
 </html>
