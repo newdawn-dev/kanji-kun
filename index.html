@@ -727,6 +727,7 @@ async function submitCreateEvent() {
     currentBinId = data.metadata?.id;
     status.textContent = '';
     showMain();
+    showUrlBox();
     showToast('イベントを作成しました！');
   } catch(e) {
     status.textContent = 'エラー: ' + e.message;
@@ -773,12 +774,25 @@ async function saveData() {
 function showUrlBox() {
   const box = document.getElementById('url-display');
   if (box.innerHTML) { box.innerHTML = ''; return; }
+  const shareUrl = location.origin + location.pathname + '?id=' + currentBinId;
   box.innerHTML = `
     <div class="url-box">
-      <strong>イベントID（参加者に共有）</strong>
-      ${currentBinId}
-      <div style="margin-top:6px;font-size:11px;color:var(--text-subtle);">このIDを参加者に送ってください。「既存のイベントを開く」からIDを入力すると同じイベントを見られます。</div>
+      <strong>参加者に送るURL</strong>
+      <div style="word-break:break-all;margin:4px 0 8px;font-size:12px;">${shareUrl}</div>
+      <button id="copy-btn" onclick="copyShareUrl()" style="width:100%;padding:8px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:13px;font-family:inherit;cursor:pointer;">URLをコピー</button>
     </div>`;
+}
+
+function copyShareUrl() {
+  const shareUrl = location.origin + location.pathname + '?id=' + currentBinId;
+  navigator.clipboard.writeText(shareUrl).then(() => {
+    showToast('URLをコピーしました！');
+    document.getElementById('copy-btn').textContent = 'コピーしました ✓';
+    setTimeout(() => {
+      if (document.getElementById('copy-btn'))
+        document.getElementById('copy-btn').textContent = 'URLをコピー';
+    }, 2000);
+  });
 }
 
 // ===== メイン画面 =====
